@@ -20,16 +20,19 @@ def main(argv):
                 # converte de bytes para um formato "printável"
                 texto_recebido = repr(data)
                 print('Recebido do servidor', texto_recebido)
-                # txt = input(
-                # '1-Saber a quantidade de vogais;\n2-Saber a quantidade de consoantes;\n3-Saber a palavra invertida;\n4-Todas as funções:\n')
-                # print(vogais, consoantes, invertido)
-                # converte os bytes em string
-                texto_string = data.decode('utf-8')
-                # vogais = data.decode('utf-8')
-                if (texto_string == 'bye'):
+                txt = input(
+                    '1-Saber a quantidade de vogais;\n2-Saber a quantidade de consoantes;\n3-Saber a palavra invertida;\n4-Todas as funções;\n5 - Finalizar programa;\n')
+                s.send(txt.encode())
+                dataTxt = s.recv(BUFFER_SIZE)
+                # txt_recebido = repr(dataTxt)
+                txt_recebido = dataTxt.decode()
+                print('recebido', txt_recebido)
+                if (txt_recebido == 5):
                     print('vai encerrar o socket cliente!')
                     s.close()
                     break
+                # -------------------
+                # texto_string = data.decode('utf-8')
     except Exception as error:
         print("Exceção - Programa será encerrado!")
         print(error)

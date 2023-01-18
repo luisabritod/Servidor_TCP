@@ -20,14 +20,37 @@ def on_new_client(clientsocket, addr):
                 addr[0], addr[1], texto_recebido))
             # envia o mesmo texto ao cliente
             vogais, consoantes, invertido = retorno(texto_recebido)
-            # s.send(texto.encode())
-            clientsocket.send("vogais:{}".format(vogais).encode())
-            # print(vogais, consoantes, invertido)
-            # olhar clientsocket.write
-            if (texto_recebido == 'bye'):
+            clientsocket.send(data)
+            dataNum = clientsocket.recv(BUFFER_SIZE)
+            # num = repr(dataNum)
+            num = dataNum.decode('utf-8')
+            print('num', num)
+            num = int(num)
+            print(type(num))
+            if num == 1:
+                print('vogais: ', vogais)
+                clientsocket.send("vogais:{}".format(vogais).encode())
+            elif num == 2:
+                print('consoantes: ', consoantes)
+                clientsocket.send("consoantes:{}".format(consoantes).encode())
+            elif num == 3:
+                print('invertido: ', invertido)
+                clientsocket.send("invertido:{}".format(invertido).encode())
+            elif num == 4:
+                print('vogais: ', vogais)
+                print('consoantes: ', consoantes)
+                print('invertido: ', invertido)
+                clientsocket.send("vogais:{}\nconsoantes:{}\ninvertido:{}".format(
+                    vogais, consoantes, invertido).encode())
+            elif num == 5:
                 print('vai encerrar o socket do cliente {} !'.format(addr[0]))
+                clientsocket.send(num.encode())
                 clientsocket.close()
                 return
+            else:
+                clientsocket.close()
+                return
+
         except Exception as error:
             print("Erro na conexão com o cliente!!")
             return
@@ -66,10 +89,10 @@ def retorno(recebe):
         elif letra in ('b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z'):
             consoantes = consoantes+1
 
-    print('vogais: ', vogais)
-    print('consoantes: ', consoantes)
+    # print('vogais: ', vogais)
+    # print('consoantes: ', consoantes)
 
-    print('invertido: ', recebe[::-1])
+    # print('invertido: ', recebe[::-1])
     invertido = recebe[::-1]
     return vogais, consoantes, invertido
 
