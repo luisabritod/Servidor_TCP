@@ -6,7 +6,6 @@ from unicodedata import normalize
 HOST = '127.0.0.1'  # endereço IP
 PORT = 20000        # Porta utilizada pelo servidor
 BUFFER_SIZE = 1024  # tamanho do buffer para recepção dos dados
-# BUFFER_RECEBE = BUFFER_SIZE + 1  # teste
 
 
 def on_new_client(clientsocket, addr):
@@ -21,8 +20,9 @@ def on_new_client(clientsocket, addr):
                 addr[0], addr[1], texto_recebido))
             # envia o mesmo texto ao cliente
             vogais, consoantes, invertido = retorno(texto_recebido)
+            # s.send(texto.encode())
+            clientsocket.send("vogais:{}".format(vogais).encode())
             # print(vogais, consoantes, invertido)
-            clientsocket.send(data)
             # olhar clientsocket.write
             if (texto_recebido == 'bye'):
                 print('vai encerrar o socket do cliente {} !'.format(addr[0]))
@@ -66,10 +66,10 @@ def retorno(recebe):
         elif letra in ('b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z'):
             consoantes = consoantes+1
 
-    # print('vogais: ', vogais)
-    # print('consoantes: ', consoantes)
+    print('vogais: ', vogais)
+    print('consoantes: ', consoantes)
 
-    # print('invertido: ', recebe[::-1])
+    print('invertido: ', recebe[::-1])
     invertido = recebe[::-1]
     return vogais, consoantes, invertido
 

@@ -5,7 +5,6 @@ import sys
 HOST = '127.0.0.1'  # endereço IP
 PORT = 20000        # Porta utilizada pelo servidor
 BUFFER_SIZE = 1024  # tamanho do buffer para recepção dos dados
-BUFFER_RECEBE = BUFFER_SIZE + 1  # teste
 
 
 def main(argv):
