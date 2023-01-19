@@ -18,21 +18,21 @@ def main(argv):
                 s.send(texto.encode())
                 data = s.recv(BUFFER_SIZE)
                 # converte de bytes para um formato "printável"
-                texto_recebido = repr(data)
-                print('Recebido do servidor', texto_recebido)
+                # texto_recebido = repr(data)
+                texto_recebido = data.decode('utf-8')
+                print('Recebido do servidor: \'{}\''.format(texto_recebido))
                 txt = input(
-                    '1-Saber a quantidade de vogais;\n2-Saber a quantidade de consoantes;\n3-Saber a palavra invertida;\n4-Todas as funções;\n5 - Finalizar programa;\n')
+                    '1 - Saber a quantidade de vogais;\n2 - Saber a quantidade de consoantes;\n3 - Saber a palavra invertida;\n4 - Todas as funções;\nQualquer outro número - Finalizar programa;\n')
                 s.send(txt.encode())
-                dataTxt = s.recv(BUFFER_SIZE)
-                # txt_recebido = repr(dataTxt)
-                txt_recebido = dataTxt.decode()
-                print('recebido', txt_recebido)
-                if (txt_recebido == 5):
+                txt = int(txt)
+                if txt in (1, 2, 3, 4):
+                    dataTxt = s.recv(BUFFER_SIZE)
+                    txt_recebido = dataTxt.decode('utf-8')
+                    print('recebido', txt_recebido)
+                else:
                     print('vai encerrar o socket cliente!')
                     s.close()
                     break
-                # -------------------
-                # texto_string = data.decode('utf-8')
     except Exception as error:
         print("Exceção - Programa será encerrado!")
         print(error)
