@@ -16,21 +16,25 @@ def main(argv):
                 texto = input("Digite o texto a ser enviado ao servidor:\n")
                 # texto.encode - converte a string para bytes
                 s.send(texto.encode())
+                # recv - recebe o texto em forma de bites
                 data = s.recv(BUFFER_SIZE)
-                # converte de bytes para um formato "printável"
-                # texto_recebido = repr(data)
+                # decode recebe o texto em bytes e converte para string no formato 'utf-8'
                 texto_recebido = data.decode('utf-8')
                 print('Recebido do servidor: \'{}\''.format(texto_recebido))
+                # receber a opção do cliente
                 txt = input(
-                    '1 - Saber a quantidade de vogais;\n2 - Saber a quantidade de consoantes;\n3 - Saber a palavra invertida;\n4 - Todas as funções;\nQualquer outro número - Finalizar programa;\n')
+                    '1 - Saber a quantidade de vogais;\n2 - Saber a quantidade de consoantes;\n3 - Saber a palavra invertida;\n4 - Todas as funções;\n5 - Finalizar programa;\n')
                 s.send(txt.encode())
+                # converte txt para um inteiro
                 txt = int(txt)
+                # método se para testar os números 1,2,3,4 e imprimir o que o cliente deseja
                 if txt in (1, 2, 3, 4):
                     dataTxt = s.recv(BUFFER_SIZE)
                     txt_recebido = dataTxt.decode('utf-8')
-                    print('recebido', txt_recebido)
+                    print('Recebido do servidor:\n{}'.format(txt_recebido))
+                # else utilizado para encerrar o programa
                 else:
-                    print('vai encerrar o socket cliente!')
+                    print('Vai encerrar o socket cliente!')
                     s.close()
                     break
     except Exception as error:

@@ -18,19 +18,23 @@ def on_new_client(clientsocket, addr):
             texto_recebido = data.decode('utf-8')
             print('recebido do cliente {} na porta {}: {}'.format(
                 addr[0], addr[1], texto_recebido))
-            # envia o mesmo texto ao cliente
+            # metodo utilizado para contabilizar vogais e consoantes e inverter a ordem da palavra
             vogais, consoantes, invertido = retorno(texto_recebido)
+            # envia o mesmo texto ao cliente
             clientsocket.send(data)
+            # dataNum recebe opção do cliente
             dataNum = clientsocket.recv(BUFFER_SIZE)
+            # converte num para um inteiro
             num = int(dataNum.decode('utf-8'))
+            # if else utilizado para realizar o desafio proposto pelo professor
             if num == 1:
-                clientsocket.send("vogais:{}".format(vogais).encode())
+                clientsocket.send("Vogais:{}".format(vogais).encode())
             elif num == 2:
-                clientsocket.send("consoantes:{}".format(consoantes).encode())
+                clientsocket.send("Consoantes:{}".format(consoantes).encode())
             elif num == 3:
-                clientsocket.send("invertido:{}".format(invertido).encode())
+                clientsocket.send("Invertido:{}".format(invertido).encode())
             elif num == 4:
-                clientsocket.send("vogais:{}\nconsoantes:{}\ninvertido:{}".format(
+                clientsocket.send("Vogais:{}\nConsoantes:{}\nInvertido:{}".format(
                     vogais, consoantes, invertido).encode())
             else:
                 print(
@@ -63,7 +67,7 @@ def main(argv):
 
 
 def retorno(recebe):
-    # recebe é variavel com a string enviada pelo cliente
+    # recebe é a variavel com a string enviada pelo cliente
     vogais = 0
     consoantes = 0
 
@@ -76,10 +80,6 @@ def retorno(recebe):
         elif letra in ('b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z'):
             consoantes = consoantes+1
 
-    # print('vogais: ', vogais)
-    # print('consoantes: ', consoantes)
-
-    # print('invertido: ', recebe[::-1])
     invertido = recebe[::-1]
     return vogais, consoantes, invertido
 
